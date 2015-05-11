@@ -1,0 +1,207 @@
+body {
+    margin:30px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #777;
+}
+
+input {
+    font-size: 16px;
+    color: #777;
+    padding:0px;
+    cursor: auto;
+}
+
+#delButton {
+    color:crimson;
+}
+
+#addButton {
+    color: green;
+}
+
+thead{
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    background-color: #7789A9;
+    color: white;
+}
+
+table {
+    border-spacing: 0;
+    margin: 20px 4px 4px 4px;
+    width: 300px;
+}
+
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height:100%;
+  width: 100%;
+  z-index: -1;
+}
+
+#map {
+  width: 100%;
+  height:100%;
+}
+
+.locName {
+    width:50%;
+    font-size: 16px;
+}
+
+.locType {
+   width:30%; 
+   font-size: 16px;
+}
+
+.locDel {
+   width:10%; 
+   font-size: 16px;
+}
+
+.locRating {
+   width:10%; 
+   font-size: 16px;
+}
+
+.filter {
+    color: #5A77AB;
+    width:300px;
+    font-size: 16px;
+}
+
+.check {
+    margin: 0px 20px 0px 0px;
+    background-color:linen;
+    opacity: 0.8;
+    color: black;
+    font-size: 14px;
+}
+
+button {
+    box-shadow:inset 0 1px 0 0 #ffffff;
+    background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+    background-color:#ededed;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    cursor:pointer;
+    color:#777777;
+    font-family:Arial;
+    font-size:14px;
+    font-weight:bold;
+    padding:2px 3px;
+    text-decoration:none;
+    text-shadow:0 1px 0 #ffffff;
+    margin-left:  10px;
+}
+
+button:enabled {
+    color:#666;
+}
+
+button:disabled {
+    color:#afafaf;
+}
+
+button:hover {
+    background:linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+    background-color:#dfdfdf;
+}
+
+button:active {
+    position:relative;
+    top:1px;
+}
+
+/* Small Tablet - Portrait */
+@media only screen and (max-width:767px) {
+    body {
+        background-color: lightgreen;
+    }
+    
+    #Map {
+        height: 600px;
+    }
+
+   
+    h2 {
+        font-size: 16px;
+        padding: 3px;
+    }
+    
+    input {
+
+    }
+
+    body {
+        margin: 3px;
+        font-size: 12px;
+    }
+}
+
+
+/* Phone - Portrait */
+@media only screen and (max-width: 480px) {
+    body {
+        background-color: lightblue;
+    }
+
+    #Map {
+        height: 390px;
+    }
+
+    h2 {
+        font-size: 16px;
+        padding: 3px;
+    }
+    
+    input {
+font-size:  14px;
+    }
+
+    body {
+        margin: 3px;
+        font-size: 12px;
+    }
+}
+
+
+/* NAV BAR */
+#navBar { 
+    background-color: #ddd;
+    list-style-type: none; 
+    padding: 0;
+    border-radius: 7px; 
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e6e6e6), color-stop(0.4, #d0d0d0), color-stop(1,#c4c4c4)); 
+    margin: 5px 0 5px 0;
+    font-size: 0px;
+    width: 200px;
+}
+
+#navBar li:hover { background-color: #ddd; }    
+#navBar li:first-child { border-left: none; border-radius: 7px 0 0 7px; }
+
+#navBar li {
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #666; 
+    text-shadow: #f7f7f7 0 1px 1px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #888;
+}
+
+#navBar .selected { 
+    background-color: #dcdcdc !important;
+    text-shadow:none; 
+    border-right-color: #aaa; 
+    border-left: none; 
+    transition: background-color 1s;
+}    

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+Full screen map or List view of markers
+Add map markers for neighborhood
+Search Bar - search and filter markers
+Third party details when marker, search result, or list item is clicked
+-->
+<html>
+    <head>
+        <title>Trip Planner</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet"  href="css/style.css" />
+        <link rel="shortcut icon" href="favicon.ico">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <!-- NAV BAR -->
+                <ul  id="navBar" data-bind="foreach: pages">
+                    <li data-bind="text: $data, 
+                       css: { selected: $data === $root.chosenPageId() },
+                       click: $root.goToPage"></li>
+                </ul>
+                <div id="pages">
+                    <!-- ITINERARY PAGE -->
+                    <div id="Itinerary">
+                        <table>
+                            <!-- Table Header Row -->
+                            <thead>
+                                <tr>
+                                    <th class="locName">Location</th><th class="locType">Type</th><th class="locRating">Rating</th><th class="locDel"></th>
+                                </tr>
+                            </thead>
+                            <!-- Table Footer - Button to add another row -->
+                            <tfoot>
+                                <tr>
+                                    <td>
+                                        <button id="addButton"  href="#" data-bind="click: addLocation" tabindex="8" accesskey="a">+</button>
+                                    </td>
+                                    <td></td><td></td><td></td>
+                                </tr>
+                            </tfoot>
+                            <tbody data-bind="foreach: filteredLocations">
+                                <tr data-bind="click: $root.goToDetails" style="width: 600px;">
+                                    <td class="locName">
+                                        <input  data-bind="textInput: name, hasFocus: true" >
+                                    </td >
+                                    <td  class="locType">
+                                        <select  data-bind="options: $root.placeTypes, value:type" ></select>
+                                    </td>
+                                    <td  class="locRating">
+                                        <input size="2" max="4" data-bind="textInput: rating" >
+                                    </td>
+                                    <td class="locDel">
+                                        <button id="delButton" href="#" data-bind="click: $root.removeLocation">x</button> 
+                                    </td>
+                                </tr>    
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- FILTERS PAGE -->
+                    <div id="Filter" >
+                        <div class="filter">Display</div>
+                            <div data-bind="foreach: typeFilters">
+                                <input type="checkbox" data-bind="value: id(), checked: $root.associatedItemIds" />	
+                                <span class="check" data-bind="text: '&nbsp;' + Name()"></span>
+                            </div>
+                    </div>
+                </div>
+            </header>
+            <!-- MAP PAGE - (background) -->
+            <div class="map-container">
+                <div id="map"></div>    
+            </div>
+        </div>
+        <script  src='js/libs/knockout/knockout-debug.js'></script>
+        <script  src='js/libs/knockout_mapping/knockout.mapping-latest.js'></script>
+        <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script-->
+        <!--script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script-->
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+        <script  src='js/pageNav.js'></script>
+        <script  src='js/itinerary.js'></script>
+        <script  src='js/map.js'></script>
+    </body>
+</html>
