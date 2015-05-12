@@ -1,32 +1,59 @@
 "use strict";
-/*global google, viewModel */
+/*global google, itinerary */
 
 /*
  Google mapping helper functions
  */
 var map;    // declares a global map variable
-var locations;
+var markers = [];
 
 function mapRes() {
     map.fitBounds(window.mapBounds);
 }
 
+
+// Add a marker to the map and push to the array.
+function addMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map
+    });
+    markers.push(marker);
+}
+
+// Sets the map on all markers in the array.
+function setAllMap(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setAllMap(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+    setAllMap(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+}
+
 function initializeMap() {
 // called when page is loaded.
     var mapOptions = {
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
     };
 
-    function locationFinder() {
+    function newMarker(placeData) {
         /*
-         locationFinder() returns an array of every location 
-         */
-        locations = ["big sur", "monterey", "carmel", "point lobos", "julia pfeiffer burns state park"];
-    }
-
-    function createMapMarker(placeData) {
-        /*
-         createMapMarker(placeData) reads Google Places search results to create map pins.
+         addMarker(placeData) reads Google Places search results to create map pins.
          placeData is the object returned from search results containing information
          about a single location.
          */
@@ -38,11 +65,15 @@ function initializeMap() {
         var bounds = window.mapBounds;            // current boundaries of the map window
 
         // marker is an object with additional data about the pin for a single location
-        var marker = new google.maps.Marker({
-            map: map,
-            position: placeData.geometry.location,
-            title: name
-        });
+        /*
+         var marker = new google.maps.Marker({
+         map: map,
+         position: placeData.geometry.location,
+         title: name
+         }); */
+
+        addMarker(placeData.geometry.location);
+        setAllMap(map);
 
         // infoWindows are helper windows that open when you click
         // or hover over a pin on a map. 
@@ -66,11 +97,11 @@ function initializeMap() {
          If so, it creates a new map marker for that location.
          */
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            createMapMarker(results[0]);
+            newMarker(results[0]);
         }
     }
 
-    function pinPoster(locs) {
+    function pinPoster() {
         /*
          pinPoster(locations) take in the array of locations created by locationFinder()
          and fire off Google place searches for each location
@@ -79,10 +110,11 @@ function initializeMap() {
         var place;
 
         // Iterate through the array of locations, create a search object for each location
-        for (place in locs) {
+        for (place = 0; place < loc.length; place++) {
+            console.log(loc[place].name);
             // the search request object
             var request = {
-                query: locs[place]
+                query: loc[place].name
             };
 
             // Search the Google Maps API for location data and run the callback
@@ -91,17 +123,16 @@ function initializeMap() {
         }
     }
 
+    var loc = itinerary.locations();
+
     // Make Google Map Object and attach to <div id="Map">
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
     // Set the boundaries of the map based on pin locations
     window.mapBounds = new google.maps.LatLngBounds();
 
-    // locations is an array of location strings returned from locationFinder()
-    locationFinder();
-
     // create pins on the map for each location in locations array
-    pinPoster(locations);
+    pinPoster();
 }
 
 // Call the initializeMap() function when the page loads
@@ -109,5 +140,3 @@ window.addEventListener('load', initializeMap);
 
 // listen for window resizing and adjust map bounds
 window.addEventListener('resize', mapRes);
-
-//document.getElementById("pages").addEventListener("transitionend", mapRes);

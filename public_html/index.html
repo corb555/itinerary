@@ -17,23 +17,18 @@ Third party details when marker, search result, or list item is clicked
     </head>
     <body>
         <div class="container">
-            <header>
+            <header >
                 <!-- NAV BAR -->
                 <ul  id="navBar" data-bind="foreach: pages">
                     <li data-bind="text: $data, 
                        css: { selected: $data === $root.chosenPageId() },
                        click: $root.goToPage"></li>
                 </ul>
+                <!-- PAGES  -->
                 <div id="pages">
-                    <!-- ITINERARY PAGE -->
+                    <!-- ITINERARY  -->
                     <div id="Itinerary">
                         <table>
-                            <!-- Table Header Row -->
-                            <thead>
-                                <tr>
-                                    <th class="locName">Location</th><th class="locType">Type</th><th class="locRating">Rating</th><th class="locDel"></th>
-                                </tr>
-                            </thead>
                             <!-- Table Footer - Button to add another row -->
                             <tfoot>
                                 <tr>
@@ -51,9 +46,6 @@ Third party details when marker, search result, or list item is clicked
                                     <td  class="locType">
                                         <select  data-bind="options: $root.placeTypes, value:type" ></select>
                                     </td>
-                                    <td  class="locRating">
-                                        <input size="2" max="4" data-bind="textInput: rating" >
-                                    </td>
                                     <td class="locDel">
                                         <button id="delButton" href="#" data-bind="click: $root.removeLocation">x</button> 
                                     </td>
@@ -61,17 +53,24 @@ Third party details when marker, search result, or list item is clicked
                             </tbody>
                         </table>
                     </div>
-                    <!-- FILTERS PAGE -->
-                    <div id="Filter" >
-                        <div class="filter">Display</div>
-                            <div data-bind="foreach: typeFilters">
-                                <input type="checkbox" data-bind="value: id(), checked: $root.associatedItemIds" />	
-                                <span class="check" data-bind="text: '&nbsp;' + Name()"></span>
-                            </div>
+                    <!-- FILTERS  -->
+                    <div class="filter" id="Filter" >
+                        <table>
+                            <tbody data-bind="foreach: typeFilters">
+                                <tr data-bind="click: $root.goToDetails" style="width: 150px;">
+                                    <td class=chk>
+                                        <input class=chk type="checkbox" data-bind="value: id(), checked: $root.associatedItemIds" />
+                                    </td >
+                                    <td class="filtType">
+                                        <span class="check" data-bind="text: '&nbsp;' + Name()"></span>
+                                    </td>
+                                </tr>    
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </header>
-            <!-- MAP PAGE - (background) -->
+            <!-- MAP  - (background) -->
             <div class="map-container">
                 <div id="map"></div>    
             </div>

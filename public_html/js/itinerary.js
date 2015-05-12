@@ -1,7 +1,7 @@
-// Overall viewmodel for this screen, along with initial state
+// Overall itinerary for this screen, along with initial state
 /*global ko */
 "use strict";
-var viewModel;
+var itinerary;
 
 function FilterItem(id, name) {
     var self = this;
@@ -37,9 +37,9 @@ function point(name, lat, long) {
     }.bind(this));
 }
 
-function LocationsViewModel() {
+function ItineraryModel() {
     var self = this;
-    viewModel = this;
+    itinerary = this;
 
     self.tripName = ko.observable("Big Sur");
 
@@ -48,16 +48,16 @@ function LocationsViewModel() {
 
     // Locations
     self.locations = ko.observableArray([
-        {name: ko.observable('Big Sur'), type: ko.observable('Park'), rating: ko.observable('1')},
-        {name: "Monterey", type: "Town", rating: 4},
-        {name: "Carmel", type: "Town", rating: 4},
-        {name: "Moonstone Beach", type: "Beach", rating: 2}
+        {name: "Big Sur", type: "Park"},
+        {name: "Monterey", type: "Town"},
+        {name: "Carmel", type: "Town"},
+        {name: "Moonstone Beach Park", type: "Beach"}
     ]);
 
 // LOCATION LIST
-// TODO - bypass filter when adding new item
+// TODO - bypass filter when  new item just added
     self.addLocation = function () {
-        var loc = {name: "  ", type: "Town", rating: 1};
+        var loc = {name: "  ", type: "Town"};
         self.locations.push(loc);
     };
 
@@ -70,7 +70,7 @@ function LocationsViewModel() {
     self.associatedItemIds = ko.observableArray();
 
     self.init = function () {
-        for (var id in viewModel.placeTypes) {
+        for (var id in itinerary.placeTypes) {
             if (id % 2 === 1)
                 self.typeFilters.push(new FilterItem(id, self.placeTypes[id], true));
             else
@@ -79,9 +79,12 @@ function LocationsViewModel() {
         ;
     };
     
+    
+    // TODO return based on real filter
     self.notFiltered = function (typ) {
-        if (typ === "Town") return true;
-        else return false;
+        /* if (typ === "Town") return true;
+        else return false; */
+        return true;
     };
 
 // Filter list
@@ -100,5 +103,5 @@ function LocationsViewModel() {
 }
 ;
 
-ko.applyBindings(new LocationsViewModel(), document.getElementById("pages"));
-viewModel.init();
+ko.applyBindings(new ItineraryModel(), document.getElementById("pages"));
+itinerary.init();

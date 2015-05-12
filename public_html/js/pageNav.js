@@ -25,6 +25,12 @@ function ViewPage() {
 
         if (page !== "Map")
             document.getElementById(page).style.display = "block";
+        else {
+            // Repaint map with new itinerary or filter
+            console.log("new map");
+            
+        };
+        
 
         oldPage = page;
     };
