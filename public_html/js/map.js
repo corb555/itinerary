@@ -13,9 +13,10 @@ function mapRes() {
 
 
 // Add a marker to the map and push to the array.
-function addMarker(location) {
+function addMarker(location, info) {
     var marker = new google.maps.Marker({
         position: location,
+        title: info,
         map: map
     });
     markers.push(marker);
@@ -72,7 +73,7 @@ function initializeMap() {
          title: name
          }); */
 
-        addMarker(placeData.geometry.location);
+        addMarker(placeData.geometry.location, name);
         setAllMap(map);
 
         // infoWindows are helper windows that open when you click
