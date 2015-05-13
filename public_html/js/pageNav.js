@@ -13,7 +13,7 @@ function ViewPage() {
     // Page menu
     self.pages = ['Map', 'Itinerary', 'Filter'];  // Must match Div tags
     self.chosenPageId = ko.observable();
-    self.oldPage = self.pages[0];
+    self.oldPage = "Map";
 
     self.goToPage = function (page) {
         location.hash = page;  // Allows bookmarks,etc
@@ -27,11 +27,12 @@ function ViewPage() {
             document.getElementById(page).style.display = "block";
         else {
             // Repaint map with new itinerary or filter
-            console.log("new map");
-            
+            console.log("Map Page");
+            //console.log(mapPage);
+            if (oldPage !== "Map")
+             resetMap();
         };
         
-
         oldPage = page;
     };
 }

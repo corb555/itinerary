@@ -10,6 +10,7 @@ function FilterItem(id, name) {
     self.Selected = ko.observable(false);
 }
 
+/*
 function point(name, lat, long) {
     this.name = name;
     this.lat = ko.observable(lat);
@@ -35,7 +36,7 @@ function point(name, lat, long) {
         this.lat(pos.lat());
         this.long(pos.lng());
     }.bind(this));
-}
+}*/
 
 function ItineraryModel() {
     var self = this;

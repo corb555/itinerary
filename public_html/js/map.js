@@ -6,37 +6,27 @@
  */
 var map;    // declares a global map variable
 var markers = [];
+var mapPage;
+var loc;
 
 function mapRes() {
     map.fitBounds(window.mapBounds);
 }
 
-
-// Add a marker to the map and push to the array.
-function addMarker(location, info) {
-    var marker = new google.maps.Marker({
-        position: location,
-        title: info,
-        map: map
-    });
-    markers.push(marker);
-}
-
 // Sets the map on all markers in the array.
-function setAllMap(map) {
+function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
     }
 }
 
-// Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
-    setAllMap(null);
+function clearMarker(id) {
+        markers[id].setMap(null);
 }
 
-// Shows any markers currently in the array.
-function showMarkers() {
-    setAllMap(map);
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setMarkers(null);
 }
 
 // Deletes all markers in the array by removing references to them.
@@ -51,10 +41,24 @@ function initializeMap() {
         disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
+    console.log("InitializeMap Start");
+     loc = itinerary.locations();
 
-    function newMarker(placeData) {
+    // Make Google Map Object and attach to <div id="map">
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    mapPage = this;
+
+    // Set the boundaries of the map based on pin locations
+    window.mapBounds = new google.maps.LatLngBounds();
+
+    // create markers on the map for each location in locations array
+    addMarkers();
+    console.log("InitializeMap Done");
+}
+
+function newMarker(placeData) {
         /*
-         addMarker(placeData) reads Google Places search results to create map pins.
+          reads Google Places search results to create map markers.
          placeData is the object returned from search results containing information
          about a single location.
          */
@@ -64,17 +68,18 @@ function initializeMap() {
         var lon = placeData.geometry.location.lng();  // longitude from the place service
         var name = placeData.name;   // name of the place from the place service
         var bounds = window.mapBounds;            // current boundaries of the map window
+        
+            var marker = new google.maps.Marker({
+        position: placeData.geometry.location,
+        title: name,
+        map: map
+    });
+    
+    console.log("newMarker");
+    markers.push(marker);
 
-        // marker is an object with additional data about the pin for a single location
-        /*
-         var marker = new google.maps.Marker({
-         map: map,
-         position: placeData.geometry.location,
-         title: name
-         }); */
-
-        addMarker(placeData.geometry.location, name);
-        setAllMap(map);
+       // addMarker(placeData.geometry.location, name);
+        setMarkers(map);   // Bind (enable) all markers to map
 
         // infoWindows are helper windows that open when you click
         // or hover over a pin on a map. 
@@ -97,12 +102,13 @@ function initializeMap() {
          callback(results, status) makes sure the search returned results for a location.
          If so, it creates a new map marker for that location.
          */
+        console.log("callback");
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             newMarker(results[0]);
         }
     }
 
-    function pinPoster() {
+function addMarkers() {
         /*
          pinPoster(locations) take in the array of locations created by locationFinder()
          and fire off Google place searches for each location
@@ -123,21 +129,18 @@ function initializeMap() {
             service.textSearch(request, callback);
         }
     }
-
-    var loc = itinerary.locations();
-
-    // Make Google Map Object and attach to <div id="Map">
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-    // Set the boundaries of the map based on pin locations
-    window.mapBounds = new google.maps.LatLngBounds();
-
-    // create pins on the map for each location in locations array
-    pinPoster();
+    
+function resetMap() {
+    deleteMarkers();
+    addMarkers();
 }
 
+
+  loc = itinerary.locations();
+  
 // Call the initializeMap() function when the page loads
 window.addEventListener('load', initializeMap);
 
 // listen for window resizing and adjust map bounds
 window.addEventListener('resize', mapRes);
+
