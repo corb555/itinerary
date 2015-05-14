@@ -3,49 +3,16 @@
 "use strict";
 var itinerary;
 
-function FilterItem(id, name) {
-    var self = this;
-    self.id = ko.observable(id);
-    self.Name = ko.observable(name);
-    self.Selected = ko.observable(false);
-}
-
-/*
-function point(name, lat, long) {
-    this.name = name;
-    this.lat = ko.observable(lat);
-    this.long = ko.observable(long);
-
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(lat, long),
-        title: name,
-        map: map,
-        draggable: true
-    });
-
-    //if you need the position while dragging
-    google.maps.event.addListener(marker, 'drag', function () {
-        var pos = marker.getPosition();
-        this.lat(pos.lat());
-        this.long(pos.lng());
-    }.bind(this));
-
-    //if you just need to update it when the user is filt dragging
-    google.maps.event.addListener(marker, 'dragend', function () {
-        var pos = marker.getPosition();
-        this.lat(pos.lat());
-        this.long(pos.lng());
-    }.bind(this));
-}*/
 
 function ItineraryModel() {
     var self = this;
     itinerary = this;
+    self.dirty = false;  // Has itinerary been modified?
 
     self.tripName = ko.observable("Big Sur");
 
     // Place types
-    self.placeTypes = ["Town", "Park", "Hotel", "Museum", "Restaurant", "Gas", "Other"];
+    self.filterTypes = ["Town", "Park", "Hotel", "Museum", "Restaurant", "Gas", "Other"];
 
     // Locations
     self.locations = ko.observableArray([
@@ -55,45 +22,77 @@ function ItineraryModel() {
         {name: "Moonstone Beach Park", type: "Beach"}
     ]);
 
+    function FilterItem(id, name, selected) {
+        var self = this;
+        self.id = ko.observable(id);
+        self.Name = ko.observable(name);
+        self.Selected = ko.observable(selected);
+    }
 // LOCATION LIST
 // TODO - bypass filter when  new item just added
     self.addLocation = function () {
-        var loc = {name: "  ", type: "Town"};
+        var id;
+        var loc = {name: " ", type: "Town"};
+
         self.locations.push(loc);
+        self.dirty = true;
     };
 
     self.removeLocation = function (loc) {
         self.locations.remove(loc);
+        self.dirty = true;
     };
 
 // FILTERS
     self.typeFilters = ko.observableArray();
-    self.associatedItemIds = ko.observableArray();
+    self.selectedIds = ko.observableArray();
 
     self.init = function () {
-        for (var id in itinerary.placeTypes) {
-            if (id % 2 === 1)
-                self.typeFilters.push(new FilterItem(id, self.placeTypes[id], true));
-            else
-                self.typeFilters.push(new FilterItem(id, self.placeTypes[id], false));
+        var id;
+        for (id in itinerary.filterTypes) {
+            
+                self.typeFilters.push(new FilterItem(id, self.filterTypes[id], false));
+            //self.typeFilters.Selected(true);
         }
-        ;
     };
-    
-    
+
+    self.toggleAssociation = function (item) {
+        if (item.Selected() === true)
+            console.log("dissociate item " + item.id());
+        else
+            console.log("associate item " + item.id());
+        item.Selected(!(item.Selected()));
+        self.dirty = true;
+        return true;
+    };
+
     // TODO return based on real filter
     self.notFiltered = function (typ) {
-        /* if (typ === "Town") return true;
-        else return false; */
-        return true;
+        // Walk thru filter list until match, then see if filter is on
+        for (id in self.filterTypes) {
+            
+        }
+            
+            
+            
+        if (typ === "Town") {
+            return true;
+        }
+        else {
+            return true;
+        }
+        //return true;
     };
 
 // Filter list
     self.filteredLocations = ko.computed(function () {
         var locs = this.locations(), filt = [];
-        for (var i = 0; i < locs.length; i++) {
-            if (self.notFiltered(locs[i].type) )
-                filt.push(locs[i]);
+        var i;
+
+        for (i = 0; i < locs.length; i += 1) {
+            // if (self.notFiltered(locs[i].type)) {
+            filt.push(locs[i]);
+            // }
         }
         return filt;
     }, this);
@@ -102,7 +101,6 @@ function ItineraryModel() {
         self.currentFilter(genre);
     };
 }
-;
 
 ko.applyBindings(new ItineraryModel(), document.getElementById("pages"));
 itinerary.init();

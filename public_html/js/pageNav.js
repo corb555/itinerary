@@ -1,7 +1,7 @@
 /* 
  * Page NAV Bar - display page names, make selected page visible, hide others
  */
-/*global ko */
+/*global ko, resetMap */
 "use strict";
 var viewPage;
 var oldPage;
@@ -20,23 +20,28 @@ function ViewPage() {
         self.chosenPageId(page);
 
         // Deactivate previous page and activate new page
-        if (oldPage !== "Map")
+        if (oldPage !== "Map") {
             document.getElementById(oldPage).style.display = "none";
+        }
 
-        if (page !== "Map")
+        if (page !== "Map") {
             document.getElementById(page).style.display = "block";
+        }
         else {
             // Repaint map with new itinerary or filter
-            console.log("Map Page");
+            
             //console.log(mapPage);
-            if (oldPage !== "Map")
-             resetMap();
-        };
-        
+            console.log("Map Page, dirty=" + itinerary.dirty);
+            
+            // If we're going to the map and the itinerary had changed, then recreate it
+            if (oldPage !== "Map" && itinerary.dirty) {
+                createMap();
+                itinerary.dirty = false;
+            }
+        }
         oldPage = page;
     };
 }
-;
 
 ko.applyBindings(new ViewPage(), document.getElementById("navBar"));
 

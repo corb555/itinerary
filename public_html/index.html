@@ -33,9 +33,9 @@ Third party details when marker, search result, or list item is clicked
                             <tfoot>
                                 <tr>
                                     <td>
-                                        <button id="addButton"  href="#" data-bind="click: addLocation" tabindex="8" accesskey="a">+</button>
+                                        <button id="addButton"  data-bind="click: addLocation" tabindex="8" accesskey="a">+</button>
                                     </td>
-                                    <td></td><td></td><td></td>
+                                    <td></td><td></td>
                                 </tr>
                             </tfoot>
                             <tbody data-bind="foreach: filteredLocations">
@@ -44,10 +44,10 @@ Third party details when marker, search result, or list item is clicked
                                         <input  data-bind="textInput: name, hasFocus: true" >
                                     </td >
                                     <td  class="locType">
-                                        <select  data-bind="options: $root.placeTypes, value:type" ></select>
+                                        <select  data-bind="options: $root.filterTypes, value:type" ></select>
                                     </td>
                                     <td class="locDel">
-                                        <button id="delButton" href="#" data-bind="click: $root.removeLocation">x</button> 
+                                        <button id="delButton" data-bind="click: $root.removeLocation">x</button> 
                                     </td>
                                 </tr>    
                             </tbody>
@@ -55,11 +55,12 @@ Third party details when marker, search result, or list item is clicked
                     </div>
                     <!-- FILTERS  -->
                     <div class="filter" id="Filter" >
+                        Hide
                         <table>
                             <tbody data-bind="foreach: typeFilters">
                                 <tr data-bind="click: $root.goToDetails" style="width: 150px;">
                                     <td class=chk>
-                                        <input class=chk type="checkbox" data-bind="value: id(), checked: $root.associatedItemIds" />
+                                        <input class=chk type="checkbox" data-bind="value: id(), checked: $root.selectedIds, click: $root.toggleAssociation" />
                                     </td >
                                     <td class="filtType">
                                         <span class="check" data-bind="text: '&nbsp;' + Name()"></span>
@@ -67,6 +68,11 @@ Third party details when marker, search result, or list item is clicked
                                 </tr>    
                             </tbody>
                         </table>
+                        Selected Ids:
+                        <div data-bind="foreach: $root.selectedIds">
+                            <span data-bind="text: $data"></span>
+                            <br/>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -84,7 +90,5 @@ Third party details when marker, search result, or list item is clicked
         <script  src='js/itinerary.js'></script>
         <script  src='js/map.js'></script>
         <script  src='js/pageNav.js'></script>
-        
-
     </body>
 </html>
