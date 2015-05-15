@@ -1,7 +1,7 @@
 /* 
  * Page NAV Bar - display page names, make selected page visible, hide others
  */
-/*global ko, resetMap */
+/*global ko, resetMap, itinerary */
 "use strict";
 var nav;
 var oldPage;
@@ -17,7 +17,7 @@ function Nav() {
 
     self.goToPage = function (page) {
         location.hash = page;  // Add hash to URL to allow bookmarks,etc
-        
+
         // Deactivate previous page (except MAP) 
         if (oldPage !== "Map") {
             document.getElementById(oldPage).style.display = "none";
@@ -38,13 +38,17 @@ function Nav() {
         self.chosenPageId(page);
         oldPage = page;
     };
-}
 
-ko.applyBindings(new Nav(), document.getElementById("navBar"));
+    self.init = function () {
+        ko.applyBindings(new Nav(), document.getElementById("navBar"));
 
 // Deactivate other pages and activate first Page 
-document.getElementById("Itinerary").style.display = "none";
-document.getElementById("Filter").style.display = "none";
+        document.getElementById("Itinerary").style.display = "none";
+        document.getElementById("Filter").style.display = "none";
 
-oldPage = "Itinerary";
-nav.goToPage(nav.pages[0]);
+        oldPage = "Itinerary";
+        nav.goToPage(nav.pages[0]);
+    };
+
+    self.init();
+}

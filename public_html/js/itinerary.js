@@ -91,12 +91,12 @@ self.locations = ko.observableArray();
         // Find index of type in filter list
         var targetIdx = "";
         targetIdx = self.filterTypes.indexOf(typ) + "";   // Scan for type, convert index to string
-        console.log("targ=" + typ );
+       // console.log("targ=" + typ );
 
         // Scan  selectedFilter list to see if target is in list
         var ix; 
         var match = self.selectedIds().indexOf(targetIdx);
-        console.log("match=" + match);
+        //console.log("match=" + match);
         if (match === -1) return(true);
         else
             return(false);
@@ -104,14 +104,15 @@ self.locations = ko.observableArray();
 
 // Function - filteredLocations - returns a list of locations filtered by location type
     self.filteredLocations = ko.computed(function () {
-        var locs = this.locations(), filt = [];
+        //var locs = this.locations(), 
+        var filt = [];
         var i;
 
 // go through list of locations, add any that are not filtered
-        for (i = 0; i < locs.length; i += 1) {
-            if (self.notFiltered(locs[i].type())) {
-                filt.push(locs[i]);
-                console.log("Filt add:" + locs[i]);
+        for (i = 0; i < this.locations().length; i += 1) {
+            if (self.notFiltered(this.locations()[i].type())) {
+                filt.push(this.locations()[i]);
+                console.log("Filt add:" + this.locations()[i].name() );
             }
         }
         return filt;

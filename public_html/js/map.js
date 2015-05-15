@@ -1,11 +1,10 @@
 /*global google, itinerary, window */
 "use strict";
 
-
 /*
  Google mapping helper functions
  */
-var map;    // declares a global map variable
+var map;    // declare global map variable
 var markers = [];
 var mapPage;
 //var loc;
@@ -48,8 +47,11 @@ function createMap() {
         disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
-    console.log("InitializeMap Start");
+    //console.log("InitializeMap Start");
     //loc = itinerary.locations();
+    console.log("Create Map");
+    
+    if (map !== null) deleteMarkers();
 
     map = null;
     // Make Google Map Object and attach to <div id="map">
@@ -60,7 +62,7 @@ function createMap() {
 
     // create markers on the map for each location in locations array
     addMarkers();
-    console.log("InitializeMap Done");
+    //console.log("InitializeMap Done");
 }
 
 function newMarker(placeData) {
@@ -83,6 +85,8 @@ function newMarker(placeData) {
     });
 
     markers.push(marker);
+    
+    console.log("marker=" + name);
 
     // addMarker(placeData.geometry.location, name);
     setMarkers(map);   // Bind (enable) all markers to map
@@ -113,11 +117,12 @@ function addMarkers() {
      */
     var service = new google.maps.places.PlacesService(map);
     var place;
-    var loc;
+    //var loc;
 
     // Iterate through the array of locations, create a search object for each location
-    loc = itinerary.filteredLocations();
+    //loc = itinerary.filteredLocations();
     for (place in itinerary.filteredLocations()  ) {
+        console.log("idx=" + place + " loc=" +  itinerary.filteredLocations()[place].name() );
         // the search request object
         var request = {
             query: itinerary.filteredLocations()[place].name()
@@ -182,7 +187,6 @@ function resetMap() {
  }.bind(this));
  }*/
 
-//loc = itinerary.locations();
 
 // Call the initializeMap() function when the page loads
 window.addEventListener('load', initializeMap);
