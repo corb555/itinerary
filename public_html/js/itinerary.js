@@ -1,47 +1,39 @@
 // Overall itinerary for this screen, along with initial state
 /*global ko */
-"use strict";
+
 var itinerary;
 
 function ItineraryModel() {
+    "use strict";
     var self = this;
     itinerary = this;
-    self.dirty = false;  // Has itinerary been modified?
-    self.tripName = ko.observable("Big Sur");
+    self.dirty = false;  // Has itinerary been modified or filter changed?
 
-    // Types of locations
-    self.filterTypes = ["Town", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];
-    
-    function LocationItem(name, type) {
-        var self = this;
-        self.name = ko.observable(name);
-        self.type = ko.observable(type);
-    }
-
-    // List of Locations
-    /*
+    // Observable Location array of observable items (name and type)
     self.locations = ko.observableArray([
-        {name: "Big Sur", type: "Park"},
-        {name: "Monterey", type: "Town"},
-        {name: "Carmel", type: "Town"},
-        {name: "Moonstone Beach Park", type: "Beach"}
-    ]);*/
+        {name: ko.observable("Big Sur"), type: ko.observable("Park")},
+        {name: ko.observable("Monterey"), type: ko.observable("Town")},
+        {name: ko.observable("Carmel"), type: ko.observable("Town")},
+        {name: ko.observable("Moonstone Beach Park"), type: ko.observable("Beach")}
+    ]);
 
-self.locations = ko.observableArray();
+// LOCATION LIST
 
-    self.locs = [
-        "Big Sur", 
-        "Monterey", 
-        "Carmel", 
-        "Moonstone Beach Park"
-    ];
-    
-    self.locTypes = [
-        "Park",
-        "Town",
-        "Town",
-        "Beach"
-    ];
+    // Add a new (blank) location
+    self.addLocation = function () {
+        self.locations.push({name: ko.observable(" "), type: ko.observable(" ")});
+        self.dirty = true;
+    };
+
+    // Delete location
+    self.removeLocation = function (loc) {
+        self.locations.remove(loc);
+        self.dirty = true;
+    };
+
+// FILTERS
+    // Types of locations 
+    self.filterTypes = ["Town", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];
 
     function FilterItem(id, name, selected) {
         var self = this;
@@ -49,79 +41,55 @@ self.locations = ko.observableArray();
         self.Name = ko.observable(name);
         self.Selected = ko.observable(selected);
     }
-    
-// LOCATION LIST
-// TODO - bypass filter when  new item just added
-    self.addLocation = function () {
-        var loc = new LocationItem("","");
 
-        self.locations.push(loc);
-        self.dirty = true;
-    };
-
-    self.removeLocation = function (loc) {
-        self.locations.remove(loc);
-        self.dirty = true;
-    };
-
-// FILTERS
     self.typeFilters = ko.observableArray();  // List of filters
     self.selectedIds = ko.observableArray();  // List of selected filters
 
     self.init = function () {
         var id;
+
+        // Populate observable Filter array
         for (id in itinerary.filterTypes) {
             self.typeFilters.push(new FilterItem(id, self.filterTypes[id], false));
         }
-        
-        for (id in itinerary.locs) {
-            self.locations.push(new LocationItem(self.locs[id], self.locTypes[id])  );
-            //console.log(self.locs[id]);
-        }
     };
 
+    // User clicked on checkbox, toggle selected
     self.toggleAssociation = function (item) {
         item.Selected(!(item.Selected()));
         self.dirty = true;  // List has changed, will need to repaint in Map
         return true;
     };
 
-    // Return whether this location type is filtered
+    // Return whether this location type is NOT filtered
     self.notFiltered = function (typ) {
         // Find index of type in filter list
-        var targetIdx = "";
+        var ix, match, targetIdx = "";
         targetIdx = self.filterTypes.indexOf(typ) + "";   // Scan for type, convert index to string
-       // console.log("targ=" + typ );
 
         // Scan  selectedFilter list to see if target is in list
-        var ix; 
-        var match = self.selectedIds().indexOf(targetIdx);
-        //console.log("match=" + match);
-        if (match === -1) return(true);
-        else
-            return(false);
+        match = self.selectedIds().indexOf(targetIdx);
+        if (match === -1) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
 
 // Function - filteredLocations - returns a list of locations filtered by location type
     self.filteredLocations = ko.computed(function () {
-        //var locs = this.locations(), 
-        var filt = [];
-        var i;
+        var filt = [], i;
 
-// go through list of locations, add any that are not filtered
+        // go through list of locations, add any that are not filtered
         for (i = 0; i < this.locations().length; i += 1) {
             if (self.notFiltered(this.locations()[i].type())) {
                 filt.push(this.locations()[i]);
-                console.log("Filt add:" + this.locations()[i].name() );
+                console.log("Filt add:" + this.locations()[i].name());
             }
         }
         return filt;
     }, this);
-
-/*
-    self.filter = function (genre) {
-        self.currentFilter(genre);
-    };*/
 }
 
 ko.applyBindings(new ItineraryModel(), document.getElementById("pages"));

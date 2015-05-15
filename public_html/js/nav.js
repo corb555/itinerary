@@ -1,10 +1,7 @@
-/* 
- * Page NAV Bar - display page names, make selected page visible, hide others
- */
+// Page NAV Bar - display page names, make selected page visible, hide others
 /*global ko, resetMap, itinerary */
 "use strict";
-var nav;
-var oldPage;
+var nav, oldPage;
 
 function Nav() {
     var self = this;
@@ -42,13 +39,13 @@ function Nav() {
     self.init = function () {
         ko.applyBindings(new Nav(), document.getElementById("navBar"));
 
-// Deactivate other pages and activate first Page 
+        // Deactivate other pages and activate first Page 
         document.getElementById("Itinerary").style.display = "none";
         document.getElementById("Filter").style.display = "none";
 
         oldPage = "Itinerary";
         nav.goToPage(nav.pages[0]);
     };
-
+    
     self.init();
 }
