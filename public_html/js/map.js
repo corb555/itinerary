@@ -117,10 +117,10 @@ function addMarkers() {
 
     // Iterate through the array of locations, create a search object for each location
     loc = itinerary.filteredLocations();
-    for (place = 0; place < loc.length; place+=1) {
+    for (place in itinerary.filteredLocations()  ) {
         // the search request object
         var request = {
-            query: loc[place].name
+            query: itinerary.filteredLocations()[place].name()
         };
 
         // Search the Google Maps API for location data and run the callback
