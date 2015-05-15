@@ -12,7 +12,7 @@ function ItineraryModel() {
     self.tripName = ko.observable("Big Sur");
 
     // Place types
-    self.filterTypes = ["Town", "Park", "Hotel", "Museum", "Restaurant", "Gas", "Other"];
+    self.filterTypes = ["Town", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];
 
     // Locations
     self.locations = ko.observableArray([
@@ -50,9 +50,7 @@ function ItineraryModel() {
     self.init = function () {
         var id;
         for (id in itinerary.filterTypes) {
-            
-                self.typeFilters.push(new FilterItem(id, self.filterTypes[id], false));
-            //self.typeFilters.Selected(true);
+            self.typeFilters.push(new FilterItem(id, self.filterTypes[id], false));
         }
     };
 
@@ -68,19 +66,33 @@ function ItineraryModel() {
 
     // TODO return based on real filter
     self.notFiltered = function (typ) {
-        // Walk thru filter list until match, then see if filter is on
-        for (id in self.filterTypes) {
+        // Find index of type in filter list
+        var targetIdx = "";
+        targetIdx = self.filterTypes.indexOf(typ) + "";   // Scan for type, convert index to string
+        console.log("targ=" + typ );
+
+        // Scan  selectedFilter list to see if target is in list
+        var ix; //, tmp1, tmp2;
+        //tmp1 = "" + targetIdx;
+       // tmp2 = "";
+       /*
+        for (ix in self.selectedIds()) {
+            //tmp1 = targetIdx+"100";
+           // tmp2 = (self.selectedIds()[ix])+"100";
+            console.log("ix=" + ix + "targ Idx=" + targetIdx + " val=" + self.selectedIds()[ix]);
             
-        }
-            
-            
-            
-        if (typ === "Town") {
-            return true;
-        }
-        else {
-            return true;
-        }
+            if (targetIdx === self.selectedIds()[ix]) {
+                console.log("MATCH");
+                return false;
+            }
+        } */
+        var match = self.selectedIds().indexOf(targetIdx);
+        console.log("match=" + match);
+        if (match === -1) return(true)
+        else
+            return(false);
+
+        
         //return true;
     };
 
@@ -90,9 +102,9 @@ function ItineraryModel() {
         var i;
 
         for (i = 0; i < locs.length; i += 1) {
-            // if (self.notFiltered(locs[i].type)) {
-            filt.push(locs[i]);
-            // }
+            if (self.notFiltered(locs[i].type)) {
+                filt.push(locs[i]);
+            }
         }
         return filt;
     }, this);
