@@ -62,7 +62,7 @@ function handleClick(marker) {
     getWiki(marker.getTitle() );
 }
 
-self.getWiki = function(item) {
+function getWiki(item) {
             var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&callback=wikiCallbackFunction";
 
             var newUrl =  wikiUrl.replace("%data%", item) ;

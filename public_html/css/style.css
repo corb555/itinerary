@@ -25,6 +25,10 @@ input {
     color: green;
 }
 
+#infoButton {
+    color:#337ab7;
+}
+
 thead{
     text-align: left;
     padding: 0;

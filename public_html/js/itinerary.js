@@ -37,6 +37,10 @@ function ItineraryModel() {
     };
 
 
+    self.getInfo = function (loc) {
+        mapPage.getWiki(loc.name() );
+    };
+
 // FILTERS
     // Types of locations 
     self.filterTypes = ["Town", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];

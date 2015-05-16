@@ -52,6 +52,9 @@ Third party details when marker, search result, or list item is clicked
                                         <select  data-bind="options: $root.filterTypes, value:type" ></select>
                                     </td>
                                     <td class="locDel">
+                                        <button id="infoButton" data-bind="click: $root.getInfo">?</button> 
+                                    </td>
+                                    <td class="locDel">
                                         <button id="delButton" data-bind="click: $root.removeLocation">x</button> 
                                     </td>
                                 </tr>    
@@ -81,11 +84,11 @@ Third party details when marker, search result, or list item is clicked
                 <div id="map"></div>    
             </div>
         </div>
-        
+
         <script  src='js/libs/knockout/knockout-debug.js'></script>
         <script  src='js/libs/knockout_mapping/knockout.mapping-latest.js'></script>
-        
-       
+
+
         <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script-->
         <!--script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script-->
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
