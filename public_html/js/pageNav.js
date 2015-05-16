@@ -28,11 +28,7 @@ function ViewPage() {
             document.getElementById(page).style.display = "block";
         }
         else {
-            // Repaint map with new itinerary or filter
-            
-            //console.log(mapPage);
-            console.log("Map Page, dirty=" + itinerary.dirty);
-            
+            // Repaint map with new itinerary or filter            
             // If we're going to the map and the itinerary had changed, then recreate it
             if (oldPage !== "Map" && itinerary.dirty) {
                 createMap();
