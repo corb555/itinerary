@@ -1,8 +1,6 @@
 // Overall itinerary for this screen, along with initial state
 /*global ko */
 
-// TODO - make map.js object oriented
-
 var itinerary;
 
 function ItineraryModel() {
@@ -20,7 +18,7 @@ function ItineraryModel() {
         {name: ko.observable("Julia Pfeiffer Burns State Park"), type: ko.observable("Beach")}
     ]);
 
-// LOCATION LIST
+// LOCATION 
 
     // Add a new (blank) location
     self.addLocation = function () {
@@ -36,7 +34,7 @@ function ItineraryModel() {
 
 
     self.getInfo = function (loc) {
-        mapPage.getWiki(loc.name() );
+        mapPage.getWiki(loc.name());
     };
 
 // FILTERS
