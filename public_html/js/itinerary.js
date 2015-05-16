@@ -36,6 +36,7 @@ function ItineraryModel() {
         self.dirty = true;
     };
 
+
 // FILTERS
     // Types of locations 
     self.filterTypes = ["Town", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];

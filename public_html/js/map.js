@@ -58,6 +58,25 @@ function createMap() {
     addMarkers();
 }
 
+function handleClick(marker) {
+    getWiki(marker.getTitle() );
+}
+
+self.getWiki = function(item) {
+            var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&callback=wikiCallbackFunction";
+
+            var newUrl =  wikiUrl.replace("%data%", item) ;
+            console.log (newUrl);
+
+            $.ajax(newUrl, {
+                dataType: "jsonp",
+                success: function( wikiResponse ) {
+                    alert( wikiResponse[2][0] );
+                }
+            });
+            
+            };
+
 function newMarker(placeData) {
     /*
      reads Google Places search results to create map markers.
@@ -71,6 +90,11 @@ function newMarker(placeData) {
         title: placeData.name,
         map: map
     });
+
+// Add event handler for when Marker is clicked
+  google.maps.event.addListener(marker, 'click', function() {
+    handleClick(marker);
+  });
 
     markers.push(marker);
     setMarkers(map);                    // Bind (enable) all markers to map
