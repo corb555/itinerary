@@ -1,9 +1,7 @@
 // Overall itinerary for this screen, along with initial state
 /*global ko */
 
-// TODO - third party API (wikipedia, flickr) - when marker, search result or list view item is clicked on
 // TODO - make map.js object oriented
-// TODO - use responsive grid
 
 var itinerary;
 
@@ -18,8 +16,8 @@ function ItineraryModel() {
     self.locations = ko.observableArray([
         {name: ko.observable("Big Sur"), type: ko.observable("Park")},
         {name: ko.observable("Monterey"), type: ko.observable("Town")},
-        {name: ko.observable("Carmel"), type: ko.observable("Town")},
-        {name: ko.observable("Moonstone Beach Park"), type: ko.observable("Beach")}
+        {name: ko.observable("Carmel-By-the-sea"), type: ko.observable("Town")},
+        {name: ko.observable("Julia Pfeiffer Burns State Park"), type: ko.observable("Beach")}
     ]);
 
 // LOCATION LIST

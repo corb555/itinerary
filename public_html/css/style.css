@@ -1,3 +1,4 @@
+/* GENERAL SETTINGS */
 body {
     margin:30px;
     font-family: 'Roboto', sans-serif;
@@ -5,30 +6,12 @@ body {
     color: #777;
 }
 
+/* itinerary and filter overlay are partially transparent */
 header {
     opacity: 0.93;
-    width: 350px;
 }
 
-input {
-    font-size: 16px;
-    color: #777;
-    padding:0px;
-    cursor: auto;
-}
-
-#delButton {
-    color:crimson;
-}
-
-#addButton {
-    color: green;
-}
-
-#infoButton {
-    color:#337ab7;
-}
-
+/* Itinerary & Filter Tables */
 thead{
     text-align: left;
     padding: 0;
@@ -40,21 +23,7 @@ thead{
 table {
     border-spacing: 0;
     margin: 20px 4px 4px 4px;
-    width: 300px;
-}
-
-.map-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height:100%;
-  width: 100%;
-  z-index: -1;
-}
-
-#map {
-  width: 100%;
-  height:100%;
+   width: 250px; 
 }
 
 .locName {
@@ -83,9 +52,42 @@ table {
 }
 
 .filter {
-    width:300px;
+
 }
 
+.filtType {
+    margin: 0px 0px 0px 0px;
+    background-color:white;
+    color: black;
+    font-size: 14px;
+    opacity: .8;
+    border-color: black;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* MAP */
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height:100%;
+  width: 100%;
+  z-index: -1;
+}
+
+#map {
+  width: 100%;
+  height:100%;
+}
+
+/* Input */
+input {
+    font-size: 16px;
+    color: #777;
+    padding:0px;
+    cursor: auto;
+}
 
 input[type='checkbox']
  {
@@ -109,18 +111,9 @@ input[type='checkbox']
     vertical-align: middle;
 }
 
-.filtType {
-    margin: 0px 0px 0px 0px;
-    background-color:white;
-    color: black;
-    font-size: 14px;
-    opacity: .8;
-    border-color: black;
-    text-align: left;
-    vertical-align: middle;
-}
 
 
+/* Buttons */
 button {
     box-shadow:inset 0 1px 0 0 #ffffff;
     background:linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
@@ -156,6 +149,55 @@ button:active {
     position:relative;
     top:1px;
 }
+
+#delButton {
+    color:crimson;
+}
+
+#addButton {
+    color: green;
+}
+
+#infoButton {
+    color:#337ab7;
+}
+
+
+
+/* NAV BAR */
+#navBar { 
+    background-color: #ddd;
+    list-style-type: none; 
+    padding: 0;
+    border-radius: 7px; 
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e6e6e6), color-stop(0.4, #d0d0d0), color-stop(1,#c4c4c4)); 
+    margin: 5px 0 5px 0;
+    font-size: 0px;
+    width: 200px;
+}
+
+#navBar li:hover { background-color: #ddd; }    
+#navBar li:first-child { border-left: none; border-radius: 7px 0 0 7px; }
+
+#navBar li {
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #666; 
+    text-shadow: #f7f7f7 0 1px 1px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #888;
+}
+
+#navBar .selected { 
+    background-color: #dcdcdc !important;
+    text-shadow:none; 
+    border-right-color: #aaa; 
+    border-left: none; 
+    transition: background-color 1s;
+}    
 
 /* Small Tablet - Portrait */
 @media only screen and (max-width:767px) {
@@ -208,39 +250,3 @@ font-size:  14px;
         font-size: 12px;
     }
 }
-
-
-/* NAV BAR */
-#navBar { 
-    background-color: #ddd;
-    list-style-type: none; 
-    padding: 0;
-    border-radius: 7px; 
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e6e6e6), color-stop(0.4, #d0d0d0), color-stop(1,#c4c4c4)); 
-    margin: 5px 0 5px 0;
-    font-size: 0px;
-    width: 200px;
-}
-
-#navBar li:hover { background-color: #ddd; }    
-#navBar li:first-child { border-left: none; border-radius: 7px 0 0 7px; }
-
-#navBar li {
-    font-size: 14px;
-    font-weight: bold;
-    display: inline-block;
-    padding: 5px 10px;
-    cursor: pointer;
-    color: #666; 
-    text-shadow: #f7f7f7 0 1px 1px;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #888;
-}
-
-#navBar .selected { 
-    background-color: #dcdcdc !important;
-    text-shadow:none; 
-    border-right-color: #aaa; 
-    border-left: none; 
-    transition: background-color 1s;
-}    
