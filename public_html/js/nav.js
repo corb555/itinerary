@@ -46,6 +46,6 @@ function Nav() {
         oldPage = "Itinerary";
         nav.goToPage(nav.pages[0]);
     };
-    
+
     self.init();
 }

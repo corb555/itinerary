@@ -1,4 +1,4 @@
- // Google mapping helper functions
+// Google mapping helper functions
 /*global google, itinerary, window */
 "use strict";
 
@@ -13,7 +13,7 @@ function mapResize() {
 // Sets the map on all markers in the array.
 function setMarkers(map) {
     var i;
-    for (i = 0; i < markers.length; i+=1) {
+    for (i = 0; i < markers.length; i += 1) {
         markers[i].setMap(map);
     }
 }
@@ -34,8 +34,8 @@ function deleteMarkers() {
 }
 
 function initializeMap() {
-mapPage = this;
-createMap();
+    mapPage = this;
+    createMap();
 }
 
 function createMap() {
@@ -44,12 +44,13 @@ function createMap() {
         disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
-    
-    if (map !== null) deleteMarkers();
+
+    if (map !== null)
+        deleteMarkers();
     map = null;
     // Make Google Map Object and attach to <div id="map">
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    
+
     // Set the boundaries of the map based on pin locations
     window.mapBounds = new google.maps.LatLngBounds();
 
@@ -87,12 +88,12 @@ function callback(results, status) {
 }
 
 function addMarkers() {
-     //using  array of locations, fire off Google place searches for each location
+    //using  array of locations, fire off Google place searches for each location
     var service = new google.maps.places.PlacesService(map);
     var place;
 
     // Iterate through the array of locations, create a search object for each location
-    for (place in itinerary.filteredLocations()  ) {
+    for (place in itinerary.filteredLocations()) {
         // the search request object
         var request = {
             query: itinerary.filteredLocations()[place].name()
@@ -107,16 +108,16 @@ function addMarkers() {
 // Some future map functions to add
 
 /*
-function radarSearch(loc) {
-  var request = {
-    bounds: map.getBounds(),
-    keyword: 'best view',
-    query: loc
-  };
-  
-  var service = new google.maps.places.PlacesService(map);
-  service.radarSearch(request, callback);
-} */
+ function radarSearch(loc) {
+ var request = {
+ bounds: map.getBounds(),
+ keyword: 'best view',
+ query: loc
+ };
+ 
+ var service = new google.maps.places.PlacesService(map);
+ service.radarSearch(request, callback);
+ } */
 
 /*
  function point(name, lat, long) {

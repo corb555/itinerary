@@ -28,6 +28,10 @@ Third party details when marker, search result, or list item is clicked
                 <div id="pages">
                     <!-- ITINERARY  -->
                     <div id="Itinerary">
+                        <div id="Search">
+                            Search
+                            <input  data-bind="textInput: $root.search" >
+                        </div>
                         <table>
                             <!-- Table Footer - Button to add another row -->
                             <tfoot>
@@ -41,7 +45,7 @@ Third party details when marker, search result, or list item is clicked
                             <tbody data-bind="foreach: filteredLocations">
                                 <tr data-bind="click: $root.goToDetails" style="width: 600px;">
                                     <td class="locName">
-                                        <input  data-bind="textInput: name, hasFocus: true" >
+                                        <input  data-bind="textInput: name" >
                                     </td >
                                     <td  class="locType">
                                         <select  data-bind="options: $root.filterTypes, value:type" ></select>

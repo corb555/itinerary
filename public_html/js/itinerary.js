@@ -1,6 +1,10 @@
 // Overall itinerary for this screen, along with initial state
 /*global ko */
 
+// TODO - third party API (wikipedia, flickr) - when marker, search result or list view item is clicked on
+// TODO - make map.js object oriented
+// TODO - use responsive grid
+
 var itinerary;
 
 function ItineraryModel() {
@@ -8,6 +12,7 @@ function ItineraryModel() {
     var self = this;
     itinerary = this;
     self.dirty = false;  // Has itinerary been modified or filter changed?
+    self.search = ko.observable("");
 
     // Observable Location array of observable items (name and type)
     self.locations = ko.observableArray([
@@ -61,8 +66,8 @@ function ItineraryModel() {
         return true;
     };
 
-    // Return whether this location type is NOT filtered
-    self.notFiltered = function (typ) {
+    // Return whether this location type is NOT filtered ( by location type)
+    self.typeNotFiltered = function (typ) {
         // Find index of type in filter list
         var ix, match, targetIdx = "";
         targetIdx = self.filterTypes.indexOf(typ) + "";   // Scan for type, convert index to string
@@ -77,15 +82,28 @@ function ItineraryModel() {
         }
     };
 
+    self.nameNotFiltered = function (name) {
+        var idx = name.indexOf(self.search());
+        if (idx === -1)
+            return false;
+        else
+            return true;
+    };
+
+
 // Function - filteredLocations - returns a list of locations filtered by location type
     self.filteredLocations = ko.computed(function () {
         var filt = [], i;
 
         // go through list of locations, add any that are not filtered
         for (i = 0; i < this.locations().length; i += 1) {
-            if (self.notFiltered(this.locations()[i].type())) {
-                filt.push(this.locations()[i]);
-                console.log("Filt add:" + this.locations()[i].name());
+            if (self.typeNotFiltered(this.locations()[i].type())) {
+                // Also check if filtered by search criteria
+                if (self.nameNotFiltered(this.locations()[i].name())) {
+                    filt.push(this.locations()[i]);
+                }
+                else
+                    self.dirty = true;
             }
         }
         return filt;
@@ -93,4 +111,10 @@ function ItineraryModel() {
 }
 
 ko.applyBindings(new ItineraryModel(), document.getElementById("pages"));
+
+// Set dirty flag if user types in search
+itinerary.search.subscribe(function (newValue) {
+    itinerary.dirty = true;
+});
+
 itinerary.init();
