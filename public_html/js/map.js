@@ -60,12 +60,27 @@ function Markers() {
          placeData is the object returned from search results containing information
          about a single location.
          */
+        var icon;
+        console.log(placeData.name + " rat=" + placeData.types[0]);
+
+        // Set marker icon based on location type
+        switch (placeData.types[0]) {
+            case "locality":
+                icon = 'images/blue_MarkerA.png';
+                break;
+            case "park":
+                icon = 'images/green_MarkerA.png';
+                break;
+            default:
+                icon = 'images/yellow_MarkerA.png';
+        }
 
         var bounds = window.mapBounds;            // current boundaries of the map window
         var marker = new google.maps.Marker({
             position: placeData.geometry.location,
             title: placeData.name,
-            map: map
+            map: map,
+            icon: icon
         });
 
 // Add event handler for when Marker is clicked
@@ -130,14 +145,21 @@ function handleClick(marker) {
 }
 
 function getWiki(item) {
-    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&callback=wikiCallbackFunction";
+    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&callback=wikiCallbackFunction&limit=1&suggest=true&redirects=resolve";
 
     var newUrl = wikiUrl.replace("%data%", item);
 
     $.ajax(newUrl, {
         dataType: "jsonp",
         success: function (wikiResponse) {
-            alert(wikiResponse[2][0]);
+            console.log(wikiResponse[1][0]);
+            console.log(wikiResponse[2][0]);
+            console.log(wikiResponse[3][0]);
+            
+            if (wikiResponse[2][0])
+               alert(wikiResponse[2][0] + wikiResponse[3][0]);
+           else 
+               alert("no wikipedia entry found");
         }
     });
 

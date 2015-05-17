@@ -1,6 +1,7 @@
 // Overall itinerary for this screen, along with initial state
 /*global ko */
 
+
 var itinerary;
 
 function ItineraryModel() {
@@ -13,7 +14,7 @@ function ItineraryModel() {
     // Observable Location array of observable items (name and type)
     self.locations = ko.observableArray([
         {name: ko.observable("Big Sur"), type: ko.observable("Park")},
-        {name: ko.observable("Monterey"), type: ko.observable("Town")},
+        {name: ko.observable("montereys fish house"), type: ko.observable("Restaurant")},
         {name: ko.observable("Carmel-By-the-sea"), type: ko.observable("Town")},
         {name: ko.observable("Julia Pfeiffer Burns State Park"), type: ko.observable("Beach")}
     ]);
