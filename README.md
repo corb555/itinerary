@@ -14,7 +14,6 @@ Displays a map and list of a trip
 ----
 ## Itinerary Tab
 * Clicking on "+" allows you to add a new entry
-* You can edit a name or the type of the location
 * Clicking on "?" displays wikipedia info on the location
 * Clicking on "x" deletes the location
 * Search - only display items matching the text
