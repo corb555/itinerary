@@ -1,20 +1,15 @@
 /* 
- * Page NAV Bar - display page names, make selected page visible, hide others
+ * Page NAV Bar - display page names, make selected page (div) visible, hide others
+ *   First page is background and always visible
  */
-/*global ko, resetMap */
+/*global ko */
 "use strict";
 var viewPage;
 
-
-function ViewPage() {
+function ViewPage(pageList) {
     var self = this;
     viewPage = this;
     var oldPage;
-
-    // Page menu
-    self.pages = ['Map', 'Itinerary', 'Filter'];  // Must match Div tags
-    self.chosenPageId = ko.observable();
-    self.oldPage = self.pages[0];
 
     self.goToPage = function (page) {
         location.hash = page;  // Allows bookmarks,etc
@@ -25,37 +20,46 @@ function ViewPage() {
             document.getElementById(self.oldPage).style.display = "none";
         }
 
-        // Make page visible - first page (background) has special handling in "else" portion
+        // Make page visible -  page 0 (background) has special handling in "else" portion
         if (page !== self.pages[0]) {
-            document.getElementById(page).style.display = "block";
+            document.getElementById(page).style.display = "block";  // Enable page
         }
         else {
-            // Repaint background (map) with new itinerary or filter            
-            // If we're going to the map and the itinerary had changed, then recreate it
-            if (self.oldPage !== self.pages[0] && itinerary.dirty) {
-                createMap();
-                itinerary.dirty = false;
-            }
+            self.handleBackground();  // Special handling for page 0
         }
         self.oldPage = page;
     };
 
-    // Hide all content sections except first (map)
-    self.hideAll = function () {
-        var id;
-        //for (id in self.pages) {
-            
-        //}
-        document.getElementById("Itinerary").style.display = "none";
-        document.getElementById("Filter").style.display = "none";
+    // Special handling for page 0 (background)
+    self.handleBackground = function () {
+        // Repaint background (map) with new itinerary or filter            
+        // If we're going to the map and the itinerary had changed, then recreate it
+        if (self.oldPage !== self.pages[0] && itinerary.dirty) {
+            createMap();
+            itinerary.dirty = false;
+        }
     };
 
+    // Hide all content divs except page 0
+    self.hideAll = function () {
+        var id;
+        for (id in self.pages) {
+            if (id != 0)
+                document.getElementById(self.pages[id]).style.display = "none";
+        }
+    };
+
+    // Initialize
+    self.pages = pageList;  // Must match Div tags
+    self.chosenPageId = ko.observable();
+    self.oldPage = self.pages[0];
+    
+    // Deactivate other pages 
+    self.hideAll();
+    
+    // Go to page
+    self.goToPage(viewPage.pages[0]);
 }
 
-ko.applyBindings(new ViewPage(), document.getElementById("navBar"));
-
-// Deactivate other pages and activate first Page 
-viewPage.hideAll();
-
-//oldPage = viewPage.pages[1];  
-viewPage.goToPage(viewPage.pages[0]);
+// Initial View with KO bindings
+ko.applyBindings(new ViewPage(['Map', 'Itinerary', 'Filter']), document.getElementById("navBar"));

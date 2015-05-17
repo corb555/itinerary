@@ -1,10 +1,9 @@
-// Overall itinerary for this screen, along with initial state
+// List of itinerary locations, ability to add, delete, filter
 /*global ko */
-
 
 var itinerary;
 
-function ItineraryModel() {
+function Itinerary() {
     "use strict";
     var self = this;
     itinerary = this;
@@ -112,9 +111,9 @@ function ItineraryModel() {
     }, this);
 }
 
-ko.applyBindings(new ItineraryModel(), document.getElementById("pages"));
+ko.applyBindings(new Itinerary(), document.getElementById("pages"));
 
-// Set dirty flag if user types in search
+// Set dirty flag if user types in search bar - indicates map repaint needed
 itinerary.search.subscribe(function (newValue) {
     itinerary.dirty = true;
 });

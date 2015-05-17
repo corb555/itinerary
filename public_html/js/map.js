@@ -4,28 +4,27 @@
 
 var mapPage;
 var markers;
-var mapUtil;
 
 function Markers() {
     this.markerList = [];
 
-    Markers.prototype.addMarkers = function ()
+    Markers.prototype.addMarkers = function (locs)
     {
-        console.log("add markers");
         //using  array of locations, fire off Google place searches for each location
         var service = new google.maps.places.PlacesService(map);
-        var place;
+        var idx;
+        //var locs = itinerary.filteredLocations();
 
         // Iterate through the array of locations, create a search object for each location
-        for (place in itinerary.filteredLocations()) {
+        for (idx in locs) {
             // the search request object
             var request = {
-                query: itinerary.filteredLocations()[place].name()
+                query: locs[idx].name()
             };
 
-            // Search the Google Maps API for location data and run the callback
+            // Search the Google Maps API for location data and run the placesCallback
             // function with the search results after each search.
-            service.textSearch(request, callback);
+            service.textSearch(request, placesCallback);
         }
     };
 
@@ -102,7 +101,10 @@ function resizeMap() {
 }
 ;
 
+
+// Create map and add all our locations
 function createMap() {
+    mapPage = this;
     // called when page is loaded.
     var mapOptions = {
         disableDefaultUI: true,
@@ -121,30 +123,27 @@ function createMap() {
     window.mapBounds = new google.maps.LatLngBounds();
 
     // create markers on the map for each location in locations array
-    markers.addMarkers();
+    markers.addMarkers(itinerary.filteredLocations());
 }
 ;
 
-function  initializeMap() {
-    mapPage = this;
-    createMap();
-}
-;
-
-function callback(results, status) {
-    // callback results - If success, create a new map marker for that location.
+// Got response from place lookup
+function placesCallback(results, status) {
+    // placesCallback results - If success, create a new map marker for that location.
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         markers.newMarker(results[0]);
     }
 }
 ;
 
+// When marker is clicked, get wikipedia info for this location
 function handleClick(marker) {
     getWiki(marker.getTitle());
 }
 
+// Look up wikipedia item for this location and pop up window
 function getWiki(item) {
-    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&callback=wikiCallbackFunction&limit=1&suggest=true&redirects=resolve";
+    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&placesCallback=wikiCallbackFunction&limit=1&suggest=true&redirects=resolve";
 
     var newUrl = wikiUrl.replace("%data%", item);
 
@@ -152,19 +151,19 @@ function getWiki(item) {
         dataType: "jsonp",
         success: function (wikiResponse) {
             if (wikiResponse[2][0])
-                alert(wikiResponse[2][0] + "\n" + wikiResponse[3][0]);
+                alert(item + "\n" + wikiResponse[2][0] + "\n" + wikiResponse[3][0]);
             else
-                alert("no wikipedia entry ");
+                alert(item + "\n no wikipedia entry" );
         },
         error: function (wikiResponse) {
-            alert("no response ");
+            alert(item + "\n no response from wikipedia");
         }
     });
 }
 ;
 
 // Call the initializeMap() function when the page loads
-window.addEventListener('load', initializeMap);
+window.addEventListener('load', createMap);
 
 // listen for window resizing and adjust map bounds
 window.addEventListener('resize', resizeMap);
@@ -180,7 +179,7 @@ window.addEventListener('resize', resizeMap);
  };
  
  var service = new google.maps.places.PlacesService(map);
- service.radarSearch(request, callback);
+ service.radarSearch(request, placesCallback);
  } */
 
 /*
