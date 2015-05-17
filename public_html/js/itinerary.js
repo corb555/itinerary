@@ -15,7 +15,7 @@ function ItineraryModel() {
     self.locations = ko.observableArray([
         {name: ko.observable("Big Sur"), type: ko.observable("Park")},
         {name: ko.observable("montereys fish house"), type: ko.observable("Restaurant")},
-        {name: ko.observable("Carmel-By-the-sea"), type: ko.observable("Town")},
+        {name: ko.observable("Carmel-By-the-sea"), type: ko.observable("Locality")},
         {name: ko.observable("Julia Pfeiffer Burns State Park"), type: ko.observable("Beach")}
     ]);
 
@@ -40,7 +40,7 @@ function ItineraryModel() {
 
 // FILTERS
     // Types of locations 
-    self.filterTypes = ["Town", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];
+    self.filterTypes = ["Locality", "Park", "Hotel", "Beach", "Restaurant", "Gas", "Other"];
 
     function FilterItem(id, name, selected) {
         var self = this;

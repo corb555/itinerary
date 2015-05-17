@@ -61,7 +61,6 @@ function Markers() {
          about a single location.
          */
         var icon;
-        console.log(placeData.name + " rat=" + placeData.types[0]);
 
         // Set marker icon based on location type
         switch (placeData.types[0]) {
@@ -152,17 +151,15 @@ function getWiki(item) {
     $.ajax(newUrl, {
         dataType: "jsonp",
         success: function (wikiResponse) {
-            console.log(wikiResponse[1][0]);
-            console.log(wikiResponse[2][0]);
-            console.log(wikiResponse[3][0]);
-            
             if (wikiResponse[2][0])
-               alert(wikiResponse[2][0] + wikiResponse[3][0]);
-           else 
-               alert("no wikipedia entry found");
+                alert(wikiResponse[2][0] + "\n" + wikiResponse[3][0]);
+            else
+                alert("no wikipedia entry ");
+        },
+        error: function (wikiResponse) {
+            alert("no response ");
         }
     });
-
 }
 ;
 
@@ -171,8 +168,6 @@ window.addEventListener('load', initializeMap);
 
 // listen for window resizing and adjust map bounds
 window.addEventListener('resize', resizeMap);
-
-
 
 // Some future map functions to add
 
@@ -215,4 +210,3 @@ window.addEventListener('resize', resizeMap);
  this.long(pos.lng());
  }.bind(this));
  }*/
-
