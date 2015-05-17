@@ -10,6 +10,7 @@ Displays a map and list of a trip
 * Hovering over a marker will show its name.
 * Clicking on a marker will show wikipedia info.
 * After changing a filter or search, clicking on the Map tab will refresh the map.  (Note: it's possible to have this automatically refresh, but it's sort of an annoying user experience).
+* Markers are color coded by Google place type (restaurant, town, etc)
 
 ----
 ## Itinerary Tab
