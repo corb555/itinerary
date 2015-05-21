@@ -162,7 +162,13 @@ button:active {
     color:#337ab7;
 }
 
+.offline {
+    color:crimson;
+}
 
+.online {
+    color: green;
+}
 
 /* NAV BAR */
 #navBar { 

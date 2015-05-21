@@ -1,7 +1,13 @@
 
 ## Itinerary
 
-Displays a map and list of a trip
+An HTML page that displays a map and list of a trip
+
+----
+## To Run
+Click on "Download ZIP"
+Unzip to a location on your system
+Open public_html/index.html in your browser
 
 ----
 ## Map Tab

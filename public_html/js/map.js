@@ -1,5 +1,5 @@
 // Google mapping helper functions
-/*global google, itinerary, window */
+/*global google, itinerary, window, online */
 "use strict";
 
 var mapPage;
@@ -97,7 +97,8 @@ function Markers() {
 var map;    // declare map variable
 
 function resizeMap() {
-    map.fitBounds(window.mapBounds);
+    if (online)
+        map.fitBounds(window.mapBounds);
 }
 ;
 
@@ -110,6 +111,9 @@ function createMap() {
         disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.TERRAIN
     };
+
+    if (!online)
+        return;
 
     markers = new Markers();
 
@@ -124,6 +128,8 @@ function createMap() {
 
     // create markers on the map for each location in locations array
     markers.addMarkers(itinerary.filteredLocations());
+
+    itinerary.dirty = false;   // We've now updated map, so clear dirty flag
 }
 ;
 
@@ -153,7 +159,7 @@ function getWiki(item) {
             if (wikiResponse[2][0])
                 alert(item + "\n" + wikiResponse[2][0] + "\n" + wikiResponse[3][0]);
             else
-                alert(item + "\n no wikipedia entry" );
+                alert(item + "\n no wikipedia entry");
         },
         error: function (wikiResponse) {
             alert(item + "\n no response from wikipedia");

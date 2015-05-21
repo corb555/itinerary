@@ -36,7 +36,6 @@ function ViewPage(pageList) {
         // If we're going to the map and the itinerary had changed, then recreate it
         if (self.oldPage !== self.pages[0] && itinerary.dirty) {
             createMap();
-            itinerary.dirty = false;
         }
     };
 
@@ -53,10 +52,10 @@ function ViewPage(pageList) {
     self.pages = pageList;  // Must match Div tags
     self.chosenPageId = ko.observable();
     self.oldPage = self.pages[0];
-    
+
     // Deactivate other pages 
     self.hideAll();
-    
+
     // Go to page
     self.goToPage(viewPage.pages[0]);
 }

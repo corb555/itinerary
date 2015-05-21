@@ -2,6 +2,7 @@
 /*global ko */
 
 var itinerary;
+var online = true;
 
 function Itinerary() {
     "use strict";
@@ -118,4 +119,28 @@ itinerary.search.subscribe(function (newValue) {
     itinerary.dirty = true;
 });
 
+function checkOnline() {
+
+    var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=%data%&format=json&placesCallback=wikiCallbackFunction&limit=1&suggest=true&redirects=resolve";
+
+    var newUrl = wikiUrl.replace("%data%", "dog");
+
+    $.ajax(newUrl, {
+        dataType: "jsonp",
+        success: function (wikiResponse) {
+            document.getElementById("online").innerHTML = "online";
+            document.getElementById("online").className = "online";
+            online = true;
+        },
+        error: function (wikiResponse) {
+            document.getElementById("online").innerHTML = "OFFLINE";
+            document.getElementById("online").className = "offline";
+            online = false;
+        }
+    });
+}
+;
+
 itinerary.init();
+
+setInterval(checkOnline, 5000);
