@@ -1,7 +1,7 @@
 
 ## Itinerary
 
-An HTML page that displays a map and list of a trip
+An HTML page that displays a map and list of destinations for a trip
 
 ----
 ## To Run
